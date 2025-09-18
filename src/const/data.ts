@@ -1,13 +1,13 @@
 import type { IUser } from "./type"
 export const InitialAccounts: IUser[] = [
     {
-        note: ['Пользователь 1'],
+        note: [{text: 'Пользователь 1'}, {text: 'он человек'}],
         type: 'Локальная',
         login: 'SomeUser1',
         password: '12345'
     },
     {
-        note: ['Пользователь 2'],
+        note: [{text: 'Пользователь 2'}],
         type: 'LDAP',
         login: 'SomeUser2',
         password: null

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { InitialAccounts } from './const/data';
 import { userTemplate } from './const/data';
 import { useAccountsStore } from './store/accounts';
+import user from './components/user.vue';
 
 const accountsData = useAccountsStore();
 

@@ -21,6 +21,8 @@ const errors = ref({
   password: false,
 });
 
+const noteText = ref(user.value.note.map(item => item.text).join('; '));
+
 const validate = (): boolean => {
   let isValid = true;
 
@@ -32,19 +34,23 @@ const validate = (): boolean => {
     isValid = false;
   }
 
-  if(user.value.type=='Локальная' && !user.value.password){
-    errors.value.password = true
-    isValid = false
+  if (user.value.type === 'Локальная' && !user.value.password) {
+    errors.value.password = true;
+    isValid = false;
   }
 
   return isValid;
 };
 
 const handleChange = (field: keyof IUser, value: string) => {
-  user.value[field] = value;
+  if (field === 'type' && value === 'LDAP') {
+    user.value.password = null;
+  }
 
-  if(field=='type' && value=='LDAP'){
-    user.value.password = null
+  if (field === 'note') {
+    user.value.note = stringToArray(value);
+  } else {
+    user.value[field] = value;
   }
 
   handleValidate();
@@ -55,11 +61,29 @@ const handleValidate = () => {
     accountsData.updateUser(props.id, user.value);
   }
 };
+
+const stringToArray = (inputString: string): Array<{ text: string }> => {
+  return inputString
+    .split(';')
+    .map(item => item.trim())
+    .filter(item => item !== '')
+    .map(text => ({ text }));
+};
 </script>
 
 <template>
   <div class="row">
-    <p>{{ user.note }}</p>
+    <n-input
+      type="textarea"
+      v-model:value="noteText"
+      size="small"
+      :autosize="{
+        minRows: 1,
+        maxRows: 5,
+      }"
+      @update:value="handleChange('note', $event)"
+      @blur="handleValidate"
+    />
     <n-select
       v-model:value="user.type"
       :options="selectOptions"
