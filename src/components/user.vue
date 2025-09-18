@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { NInput, NSelect, NGrid, NGridItem, NFlex } from 'naive-ui';
+import { NInput, NSelect, NGrid, NGridItem } from 'naive-ui';
 import type { IUser } from '../const/type';
 import { selectOptions } from '../const/data';
 import { useAccountsStore } from '../store/accounts';
 
+const emit = defineEmits<{
+  (e: 'custom-event', payload: boolean): void;
+}>();
+
 const accountsData = useAccountsStore();
 
-const props = defineProps<{ id: number; data: IUser }>();
+const props = defineProps<{ id?: number; data: IUser }>();
 
 const user = ref<IUser>({
   note: props.data.note,
@@ -43,9 +47,10 @@ const validate = (): boolean => {
   return isValid;
 };
 
-const handleChange = (field: keyof IUser, value: string) => {
+const handleChange = (field: keyof IUser, value: string) => { 
   if (field === 'type' && value === 'LDAP') {
     user.value.password = null;
+    handleValidate();
   }
 
   if (field === 'note') {
@@ -53,13 +58,28 @@ const handleChange = (field: keyof IUser, value: string) => {
   } else {
     user.value[field] = value;
   }
-
-  handleValidate();
 };
 
 const handleValidate = () => {
-  if (validate()) {
-    accountsData.updateUser(props.id, user.value);
+
+  // Позже переделать эту пирамиду из условий
+  if(props.id){
+    if (validate()) {
+      accountsData.updateUser(props.id, user.value);
+    }
+  }else{
+    if(user.value.type !=='LDAP'){
+      if(user.value.login !=='' && user.value.password!=''){
+        accountsData.addUser({ ...user.value })
+        emit('custom-event', true);
+      }
+    }
+    else{
+      if(user.value.login!=''){
+         accountsData.addUser({ ...user.value })
+        emit('custom-event', true);
+      }
+    }
   }
 };
 
@@ -89,11 +109,11 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
     </n-grid-item>
 
     <n-grid-item>
-            <n-select
-      v-model:value="user.type"
-      :options="selectOptions"
-      @update:value="handleChange('type', $event)"
-    />
+      <n-select
+        v-model:value="user.type"
+        :options="selectOptions"
+        @update:value="handleChange('type', $event)"
+      />
     </n-grid-item>
 
     <n-grid-item :span="showPasswordField ? 1 : 2">

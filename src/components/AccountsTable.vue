@@ -2,9 +2,19 @@
     import { NGrid, NGridItem } from 'naive-ui';
     import { computed } from 'vue';
     import { useAccountsStore } from '../store/accounts';
+    import type { IUser } from '../const/type';
     import user from './user.vue';
     const accountsData = useAccountsStore();
     const account = computed(() => accountsData.getAllUsers);
+
+    const props = defineProps<{ newUser: IUser | null }>();
+    const emit = defineEmits(['update:newUser']); 
+    const removeNewUser = (payload: boolean) => {
+    if (payload) {
+        emit('update:newUser', null); 
+    }
+};
+
 </script>
 
 <template>
@@ -31,6 +41,10 @@
 
         <n-grid-item v-for="(account, index) in account" :key="index">
             <user :id="account.id" :data="account.userInfo" />
+        </n-grid-item>
+
+        <n-grid-item v-if="props.newUser">
+            <user :data="props.newUser" @custom-event="removeNewUser"/>
         </n-grid-item>
     </n-grid>
 </template>

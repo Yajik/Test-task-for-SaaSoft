@@ -17,7 +17,7 @@ export const InitialAccounts: IUser[] = [
 export const userTemplate: IUser = {
     note: [],
     type: 'Локальная',
-    login: 'Значение',
+    login: '',
     password: '',
 };
 
