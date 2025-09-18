@@ -30,6 +30,18 @@ export const useAccountsStore = defineStore('accounts', {
       if (user) {
          Object.assign(user.userInfo, userInfo);
       }
-    }
-  }
+    },
+
+    initializeAccounts(initialAccounts: IUser[]) {
+      if (this.accounts.length === 0) {
+        initialAccounts.forEach((account: IUser) => {
+          this.addUser(account);
+        });
+      }
+    },
+  },
+
+  persist: {
+    storage: localStorage,
+  },
 })

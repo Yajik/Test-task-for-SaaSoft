@@ -7,11 +7,7 @@ import AccountsTable from './components/AccountsTable.vue';
 import type { IUser } from './const/type';
 
 const accountsData = useAccountsStore();
-
-InitialAccounts.map((account) => {
-  accountsData.addUser(account);
-});
-
+accountsData.initializeAccounts(InitialAccounts);
 const account = computed(() => accountsData.getAllUsers);
 
 const showStore = () => {

@@ -139,9 +139,9 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
     />
     </n-grid-item>
 
-    <!-- <n-grid-item>
+    <n-grid-item v-if="id">
             <button @click="accountsData.deleteUser(id)">Удалить</button>
-    </n-grid-item> -->
+    </n-grid-item>
   </n-grid>
 </template>
 
