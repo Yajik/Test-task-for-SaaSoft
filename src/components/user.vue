@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { NInput, NSelect } from 'naive-ui';
+import { ref, computed } from 'vue';
+import { NInput, NSelect, NGrid, NGridItem, NFlex } from 'naive-ui';
 import type { IUser } from '../const/type';
 import { selectOptions } from '../const/data';
 import { useAccountsStore } from '../store/accounts';
@@ -22,6 +22,7 @@ const errors = ref({
 });
 
 const noteText = ref(user.value.note.map(item => item.text).join('; '));
+const showPasswordField = computed(() => user.value.type !== 'LDAP');
 
 const validate = (): boolean => {
   let isValid = true;
@@ -72,8 +73,9 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
 </script>
 
 <template>
-  <div class="row">
-    <n-input
+  <n-grid x-gap="12" :cols="4">
+    <n-grid-item>
+        <n-input
       type="textarea"
       v-model:value="noteText"
       size="small"
@@ -84,12 +86,18 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
       @update:value="handleChange('note', $event)"
       @blur="handleValidate"
     />
-    <n-select
+    </n-grid-item>
+
+    <n-grid-item>
+            <n-select
       v-model:value="user.type"
       :options="selectOptions"
       @update:value="handleChange('type', $event)"
     />
-    <n-input
+    </n-grid-item>
+
+    <n-grid-item :span="showPasswordField ? 1 : 2">
+            <n-input
       type="text"
       v-model:value="user.login"
       @update:value="handleChange('login', $event)"
@@ -97,8 +105,11 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
       :placeholder="user.login ? '' : 'Введите логин'"
       :status="errors.login ? 'error' : undefined"
     />
-    <n-input
-      v-if="user.type !== 'LDAP'"
+    </n-grid-item>
+
+    <n-grid-item v-if="showPasswordField">
+        <n-input
+      
       type="text"
       v-model:value="user.password"
       @update:value="handleChange('password', $event)"
@@ -106,8 +117,12 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
       :placeholder="user.password ? '' : 'Введите пароль'"
       :status="errors.password ? 'error' : undefined"
     />
-    <button @click="accountsData.deleteUser(id)">Удалить</button>
-  </div>
+    </n-grid-item>
+
+    <!-- <n-grid-item>
+            <button @click="accountsData.deleteUser(id)">Удалить</button>
+    </n-grid-item> -->
+  </n-grid>
 </template>
 
 <style>

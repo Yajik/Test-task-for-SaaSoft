@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { InitialAccounts } from './const/data';
 import { userTemplate } from './const/data';
 import { useAccountsStore } from './store/accounts';
-import user from './components/user.vue';
+import AccountsTable from './components/AccountsTable.vue';
 
 const accountsData = useAccountsStore();
 
@@ -27,7 +27,7 @@ const addUser = () => {
 <template>
     <button @click="addUser">Добавить</button>
     <button @click="showStore">Показать записи</button>
-    <user v-for="(account, index) in account" :key="index" :id="account.id" :data="account.userInfo" />
+    <AccountsTable/>
 </template>
 
 <style scoped>
