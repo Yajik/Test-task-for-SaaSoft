@@ -14,8 +14,8 @@
 
 1.  Клонируйте репозиторий:
     ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/Yajik/Test-task-for-SaaSoft.git
+    cd Test-task-for-SaaSoft
     ```
 
 2.  Установите зависимости:
