@@ -13,7 +13,7 @@ export const useAccountsStore = defineStore('accounts', {
 
   actions: {
     addUser(user: IUser) {
-      const userId: number = this.accounts.length+1
+      const userId: number = this.accounts.length + 1
       const account: Account = {
         id: userId,
         userInfo: user
@@ -21,14 +21,14 @@ export const useAccountsStore = defineStore('accounts', {
       this.accounts.push(account);
     },
 
-    deleteUser(id: number){
+    deleteUser(id: number) {
       this.accounts = this.accounts.filter(user => user.id !== id);
     },
 
     updateUser(id: number, userInfo: IUser) {
       const user = this.accounts.find(user => user.id === id);
       if (user) {
-         Object.assign(user.userInfo, userInfo);
+        Object.assign(user.userInfo, userInfo);
       }
     },
 

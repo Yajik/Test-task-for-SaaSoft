@@ -1,17 +1,17 @@
 <script setup lang="ts">
-    import { NGrid, NGridItem } from 'naive-ui';
-    import { computed } from 'vue';
-    import { useAccountsStore } from '../store/accounts';
-    import type { IUser } from '../const/type';
-    import user from './user.vue';
-    const accountsData = useAccountsStore();
-    const account = computed(() => accountsData.getAllUsers);
+import { NGrid, NGridItem } from 'naive-ui';
+import { computed } from 'vue';
+import { useAccountsStore } from '../store/accounts';
+import type { IUser } from '../const/type';
+import user from './user.vue';
+const accountsData = useAccountsStore();
+const account = computed(() => accountsData.getAllUsers);
 
-    const props = defineProps<{ newUser: IUser | null }>();
-    const emit = defineEmits(['update:newUser']); 
-    const removeNewUser = (payload: boolean) => {
+const props = defineProps<{ newUser: IUser | null }>();
+const emit = defineEmits(['update:newUser']);
+const removeNewUser = (payload: boolean) => {
     if (payload) {
-        emit('update:newUser', null); 
+        emit('update:newUser', null);
     }
 };
 
@@ -46,17 +46,17 @@
         </n-grid-item>
 
         <n-grid-item v-if="props.newUser">
-            <user :data="props.newUser" @custom-event="removeNewUser"/>
+            <user :data="props.newUser" @deleteNewUser="removeNewUser" />
         </n-grid-item>
     </n-grid>
 </template>
 
 <style>
-    .label{
-        margin: 0;
-        text-align: left;
-        padding-left: 5px;
-        color: rgb(126, 126, 126);
-        font-weight: 500;
-    }
+.label {
+    margin: 0;
+    text-align: left;
+    padding-left: 5px;
+    color: rgb(126, 126, 126);
+    font-weight: 500;
+}
 </style>
