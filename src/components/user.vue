@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { NInput, NSelect, NGrid, NGridItem } from 'naive-ui';
+import { NInput, NSelect, NGrid, NGridItem, NButton, NIcon } from 'naive-ui';
 import type { IUser } from '../const/type';
 import { selectOptions } from '../const/data';
 import { useAccountsStore } from '../store/accounts';
+import {TrashOutline as TrashIcon} from '@vicons/ionicons5'
 
 const emit = defineEmits<{
   (e: 'custom-event', payload: boolean): void;
@@ -93,14 +94,14 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
 </script>
 
 <template>
-  <n-grid x-gap="12" :cols="4">
+  <n-grid x-gap="20" :cols="5" style="align-items: center; text-align: left;">
     <n-grid-item>
         <n-input
       type="textarea"
       v-model:value="noteText"
       size="small"
       :autosize="{
-        minRows: 1,
+        minRows: 2,
         maxRows: 5,
       }"
       @update:value="handleChange('note', $event)"
@@ -139,9 +140,16 @@ const stringToArray = (inputString: string): Array<{ text: string }> => {
     />
     </n-grid-item>
 
-    <n-grid-item v-if="id">
-            <button @click="accountsData.deleteUser(id)">Удалить</button>
+    <n-grid-item v-if="id" style="text-align: center;">
+      <n-button strong circle type="error"  @click="accountsData.deleteUser(id)">
+      <template #icon>
+        <n-icon><TrashIcon /></n-icon>
+      </template>
+    </n-button>
+            <!-- <button @click="accountsData.deleteUser(id)">Удалить</button> -->
     </n-grid-item>
+
+
   </n-grid>
 </template>
 

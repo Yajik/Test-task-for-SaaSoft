@@ -18,24 +18,26 @@
 </script>
 
 <template>
-    <n-grid :x-gap="12" :y-gap="8" :cols="1">
+    <n-grid :x-gap="20" :y-gap="15" :cols="1">
         <n-grid-item>
-            <n-grid :x-gap="12" :y-gap="8" :cols="4">
+            <n-grid :x-gap="20" :y-gap="12" :cols="5">
                 <n-grid-item>
-                    <p>Метки</p>
+                    <p class="label">Метки</p>
                 </n-grid-item>
 
                 <n-grid-item>
-                    <p>Тип записи</p>
+                    <p class="label">Тип записи</p>
                 </n-grid-item>
 
                 <n-grid-item>
-                    <p>Логин</p>
+                    <p class="label">Логин</p>
                 </n-grid-item>
 
                 <n-grid-item>
-                    <p>Пароль</p>
+                    <p class="label">Пароль</p>
                 </n-grid-item>
+
+                <n-grid-item />
             </n-grid>
         </n-grid-item>
 
@@ -50,5 +52,11 @@
 </template>
 
 <style>
-
+    .label{
+        margin: 0;
+        text-align: left;
+        padding-left: 5px;
+        color: rgb(126, 126, 126);
+        font-weight: 500;
+    }
 </style>
